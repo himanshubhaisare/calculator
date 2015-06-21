@@ -37,5 +37,7 @@ $exponentiation = $calculator->exponentiation(10, 2);
 echo "\nExponentiation of 10 by 2 = $exponentiation"; //prints 100
 
 // combination of binary operation 1 + 1 - 4 * 4
+$numbers = array(1, 1, 4, 4);
+$operators = array('+', '-', '*');
 $result = $calculator->evaluate($numbers, $operators);
-echo "\n 1 + 1 - 4 * 4 = $result";
+echo "\n 1 + 1 - 4 * 4 = $result\n";

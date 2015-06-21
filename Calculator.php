@@ -65,29 +65,94 @@ class Calculator {
     /**
      * Evaluate combination of binary operations
      *
-     * @param array $numbers stores all the numbers in the expression in order
-     * @param array $operators stores all the operators in the expression in order
+     * @param $expression
+     * @return mixed
      * @throws Exception
-     * @return int
      */
-    public function evaluate(array $numbers, array $operators) {
-        if(empty($numbers) || empty($operators)) {
-            throw new Exception("Cannot calculate");
-        }
-
-        $numberCount = count($numbers);
-        // start with 0
-        $result = 0;
-        // add this zero to the first number in numbers array
-        array_push($operators, '+');
-
-        for($i = 0; $i < $numberCount; $i++) {
-            $operator = array_pop($operators);
-            $operation = $this->getOperation($operator);
-            $result = $this->$operation($numbers[$i], $result);
-        }
+    public function evaluate($expression) {
+        $postfix = $this->convertInfixToPostfix($expression);
+        $result = $this->evaluatePostfix($postfix);
 
         return $result;
+    }
+
+    /**
+     * Convert an infix expression to postfix
+     *
+     * @param $infix
+     * @return array
+     */
+    public function convertInfixToPostfix($infix) {
+        $length = strlen($infix);
+        $postfix = array();
+        $stack = array();
+
+        for ($i = 0; $i < $length; $i++) {
+            if (($infix[$i] >= '0') && ($infix[$i] <= '9')) {
+                $postfix[] = $infix[$i];
+            }
+            else if (($infix[$i] == '*') || ($infix[$i] == '+') || ($infix[$i] == '-') || ($infix[$i] == '/') || ($infix[$i] == '%') || ($infix[$i] == '^')) {
+                while(count($stack) > 0) {
+                    if ($this->comparePrecedence($stack[0], $infix[$i])) {
+                        $postfix[] = array_pop($stack);
+                    } else {
+                        break;
+                    }
+                }
+                array_push($stack, $infix[$i]);
+            }
+        }
+
+        while (count($stack) > 0) {
+            $postfix[] = array_pop($stack);
+        }
+
+        return $postfix;
+    }
+
+    /**
+     * Evaluate the postfix expression
+     *
+     * @param $postfix
+     * @return mixed
+     * @throws Exception
+     */
+    public function evaluatePostfix($postfix) {
+        if(empty($postfix)) {
+            throw new Exception("cannot calculate");
+        }
+
+        $stack = array();
+        $chars = str_split($postfix);
+        foreach($chars as $char) {
+            // If the token is a value
+            if(is_numeric($char)) {
+                // Push it onto the stack
+                $stack[] = $char;
+            } else { // ok this is an operator
+                // all operations are binary, so check if stack has at least 2 numbers
+                if(count($stack) > 1) {
+                    $operator = $char;
+                    $operation = $this->getOperation($operator);
+                    // pop top 2 numbers from the stack
+                    $a = array_pop($stack);
+                    $b = array_pop($stack);
+                    // perform operation
+                    $result = $this->$operation($a, $b);
+                    // push the result on the stack
+                    $stack[] = $result;
+                }
+            }
+        }
+
+        if(count($stack) > 1) {
+            echo "\nsomething is wrong ";
+            print_r($stack);
+            echo "\n";
+        }
+        else {
+            return $stack[0];
+        }
     }
 
     /**
@@ -122,5 +187,24 @@ class Calculator {
         }
 
         return $operation;
+    }
+
+    /**
+     * @param $top
+     * @param $char
+     * @return bool
+     */
+    private function comparePrecedence($top, $char) {
+        if ($top == '+' && $char == '*') { // + has lower precedence than *
+            return false;
+        }
+        if ($top == '*' && $char == '-') { // * has higher precedence over -
+            return true;
+        }
+        if ($top == '+' && $char == '-') { // + has same precedence over +
+            return true;
+        }
+
+        return true;
     }
 }
