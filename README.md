@@ -1,16 +1,14 @@
 #Description
 
-Your assignment is to write a calculator script. You do not need to provide an interface to the
+Simple Calculator. Performs simple binary operations such as add, subtract, multiply, divide.
 
-program, like a commandline or web interface. So don’t loose time on parsing input in any way or
+Also performs combination of binary operations such as 1 + 1 - 4 * 4
 
-processing web forms.
+Converts the infix expression to it's postfix equivalent and then evaluates it.
 
-You are supposed to take no more than an hour to an hour and a half to complete the test. Do
+Order of preference for the operators is such as the multiplication, division and modulus are 
 
-not use more time as you are not supposed to make it actually work but rather provide a starting
-
-point for a discussion. Pay close attention to the extensibility of your code!
+processed first and then addition, subtraction
 
 #Requirements
 
@@ -23,15 +21,3 @@ point for a discussion. Pay close attention to the extensibility of your code!
 and subtraction
 
 ­ no need to handle parentheses, e.g. ( 1 + 1 - 4 ) * 4
-
-#Objectives
-
-­ demonstrate skills in OOP code design
-
-­ showcase development best practices
-
-­ demonstrate good algorithmic thinking
-
-­ communication skills in discussing code implementations and vision
-
-­ demonstrate insight in how code evolves over time
