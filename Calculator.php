@@ -8,7 +8,11 @@
 
 class Calculator {
 
+    /**
+     * @var array
+     */
     private static $precedence = array(
+        '^' => 3,
         '*' => 2,
         '/' => 2,
         '%' => 2,
@@ -135,6 +139,9 @@ class Calculator {
 
         $stack = array();
         foreach($postfix as $char) {
+            echo "\n";
+            print_r($stack);
+            echo "\n";
             // If the token is a value
             if(is_numeric($char)) {
                 // Push it onto the stack
@@ -148,7 +155,8 @@ class Calculator {
                     $a = array_pop($stack);
                     $b = array_pop($stack);
                     // perform operation
-                    $result = $this->$operation($a, $b);
+                    $result = $this->$operation($b, $a);
+                    echo "\neval $b $operation $a = $result\n";
                     // push the result on the stack
                     $stack[] = $result;
                 }
@@ -201,23 +209,9 @@ class Calculator {
 
     /**
      * @param $top
-     * @param $char
+     * @param $newOperator
      * @return bool
      */
-//    private function comparePrecedence($top, $char) {
-//        if ($top == '+' && $char == '*') { // + has lower precedence than *
-//            return false;
-//        }
-//        if ($top == '*' && $char == '-') { // * has higher precedence over -
-//            return true;
-//        }
-//        if ($top == '+' && $char == '-') { // + has same precedence over +
-//            return true;
-//        }
-//
-//        return true;
-//    }
-
     private function comparePrecedence($top, $newOperator) {
         if(self::$precedence[$top] >= self::$precedence[$newOperator]) {
             return true;
