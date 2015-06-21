@@ -8,6 +8,14 @@
 
 class Calculator {
 
+    private static $precedence = array(
+        '*' => 2,
+        '/' => 2,
+        '%' => 2,
+        '+' => 1,
+        '-' => 1
+    );
+
     /**
      * @param $a
      * @param $b
@@ -88,7 +96,7 @@ class Calculator {
         $stack = array();
 
         for ($i = 0; $i < $length; $i++) {
-            if (($infix[$i] >= '0') && ($infix[$i] <= '9')) {
+            if (is_numeric($infix[$i])) {
                 $postfix[] = $infix[$i];
             }
             else if (($infix[$i] == '*') || ($infix[$i] == '+') || ($infix[$i] == '-') || ($infix[$i] == '/') || ($infix[$i] == '%') || ($infix[$i] == '^')) {
@@ -113,18 +121,20 @@ class Calculator {
     /**
      * Evaluate the postfix expression
      *
-     * @param $postfix
+     * @param array $postfix Array of characters
      * @return mixed
      * @throws Exception
      */
     public function evaluatePostfix($postfix) {
+        echo "\n postfix \n";
+        print_r($postfix);
+        echo "\n";
         if(empty($postfix)) {
             throw new Exception("cannot calculate");
         }
 
         $stack = array();
-        $chars = str_split($postfix);
-        foreach($chars as $char) {
+        foreach($postfix as $char) {
             // If the token is a value
             if(is_numeric($char)) {
                 // Push it onto the stack
@@ -194,17 +204,25 @@ class Calculator {
      * @param $char
      * @return bool
      */
-    private function comparePrecedence($top, $char) {
-        if ($top == '+' && $char == '*') { // + has lower precedence than *
+//    private function comparePrecedence($top, $char) {
+//        if ($top == '+' && $char == '*') { // + has lower precedence than *
+//            return false;
+//        }
+//        if ($top == '*' && $char == '-') { // * has higher precedence over -
+//            return true;
+//        }
+//        if ($top == '+' && $char == '-') { // + has same precedence over +
+//            return true;
+//        }
+//
+//        return true;
+//    }
+
+    private function comparePrecedence($top, $newOperator) {
+        if(self::$precedence[$top] >= self::$precedence[$newOperator]) {
+            return true;
+        } else {
             return false;
         }
-        if ($top == '*' && $char == '-') { // * has higher precedence over -
-            return true;
-        }
-        if ($top == '+' && $char == '-') { // + has same precedence over +
-            return true;
-        }
-
-        return true;
     }
 }
