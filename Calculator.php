@@ -130,18 +130,18 @@ class Calculator {
      * @throws Exception
      */
     public function evaluatePostfix($postfix) {
-        echo "\n postfix \n";
-        print_r($postfix);
-        echo "\n";
+//        echo "\n postfix \n";
+//        print_r($postfix);
+//        echo "\n";
         if(empty($postfix)) {
             throw new Exception("cannot calculate");
         }
 
         $stack = array();
         foreach($postfix as $char) {
-            echo "\n";
-            print_r($stack);
-            echo "\n";
+//            echo "\n";
+//            print_r($stack);
+//            echo "\n";
             // If the token is a value
             if(is_numeric($char)) {
                 // Push it onto the stack
@@ -156,7 +156,7 @@ class Calculator {
                     $b = array_pop($stack);
                     // perform operation
                     $result = $this->$operation($b, $a);
-                    echo "\neval $b $operation $a = $result\n";
+//                    echo "\neval $b $operation $a = $result\n";
                     // push the result on the stack
                     $stack[] = $result;
                 }

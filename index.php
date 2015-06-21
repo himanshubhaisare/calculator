@@ -12,6 +12,10 @@ require_once 'Calculator.php';
 
 $calculator = new Calculator();
 
+// combination of binary operation 1 + 1 - 4 * 4
+$result = $calculator->evaluate("1+1-4*4");
+echo "\n 1 + 1 - 4 * 4 = $result\n"; // prints -14
+
 // Simple Addition;
 $addition = $calculator->add(6, 5);
 echo "\nAddition of 6 and 5 = $addition"; // prints 11
@@ -35,7 +39,3 @@ echo "\nModulus of 6 by 5 = $modulus"; //prints 1
 // Simple exponentiation
 $exponentiation = $calculator->exponentiation(10, 2);
 echo "\nExponentiation of 10 by 2 = $exponentiation"; //prints 100
-
-// combination of binary operation 1 + 1 - 4 * 4
-$result = $calculator->evaluate("1+1-4*4");
-echo "\n 1 + 1 - 4 * 4 = $result\n";
