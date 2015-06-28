@@ -1,4 +1,4 @@
-#Description
+# Description
 
 Simple Calculator. Performs simple binary operations such as add, subtract, multiply, divide.
 
@@ -10,7 +10,7 @@ Order of preference for the operators is such as the multiplication, division an
 
 processed first and then addition, subtraction
 
-#Requirements
+# Requirements
 
 ­ handle binary operations, e.g. 5 - 6
 
